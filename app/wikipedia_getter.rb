@@ -4,10 +4,10 @@ class WikipediaGetter
   include HTTParty
   base_uri 'en.wikipedia.org'
 
-  LINK_LIMIT = 10
+  LINK_LIMIT = "max"
 
   def initialize(titles)
-    titles = [titles] unless titles.is_a? Array
+    titles = [titles] if titles.is_a? String
     @titles = titles.join('|')
     @query_options = { :action => 'query',
                        :format => 'json',

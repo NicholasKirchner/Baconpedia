@@ -68,7 +68,7 @@ describe WikipediaGetter do
   context "#get_linked_page_titles" do
     it "should compile a list of all page titles" do
       getter = WikipediaGetter.new("Joey Jo-Jo Junior Shabadoo")
-      getter.stub(:get_api_response) do |url_query|
+      allow(getter).to receive(:get_api_response) do |url_query|
         file = url_query[:query][:plcontinue] ? "wiki_query_without_continue" : "wiki_query_with_continue"
         JSON.parse(json_fixture(file))
       end
@@ -79,7 +79,7 @@ describe WikipediaGetter do
 
     it "should raise an error if wiki's response has one" do
       getter = WikipediaGetter.new("Joey Jo-Jo Junior Shabadoo")
-      getter.stub(:get_api_response) { JSON.parse(json_fixture("wiki_error")) }
+      allow(getter).to receive(:get_api_response) { JSON.parse(json_fixture("wiki_error")) }
       expect { getter.get_linked_page_titles }.to raise_error(WikiError)
     end
 
