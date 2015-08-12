@@ -77,5 +77,11 @@ describe WikipediaGetter do
       expect(getter.get_linked_page_titles).to include("WorldCat")
     end
 
+    it "should raise an error if wiki's response has one" do
+      getter = WikipediaGetter.new("Joey Jo-Jo Junior Shabadoo")
+      getter.stub(:get_api_response) { JSON.parse(json_fixture("wiki_error")) }
+      expect { getter.get_linked_page_titles }.to raise_error(WikiError)
+    end
+
   end
 end

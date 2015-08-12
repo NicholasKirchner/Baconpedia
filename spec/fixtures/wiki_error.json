@@ -1,0 +1,8 @@
+{
+    "servedby": "mw1144",
+    "error": {
+        "code": "blinvalidtitle",
+        "info": "Bad title \"Albert_Einstein|Kevin_Bacon\"",
+        "*": "See https://en.wikipedia.org/w/api.php for API usage"
+    }
+}

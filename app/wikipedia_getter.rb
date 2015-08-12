@@ -33,6 +33,10 @@ class WikipediaGetter
     loop do
       response = get_api_response(forward_link_options(plcontinue_param))
 
+      if response["error"]
+        raise WikiError, response["error"].to_s
+      end
+
       linked_page_titles << response["query"]["pages"].values.map do |page_data|
         page_data["links"].map { |link| link["title"] }
       end
@@ -61,6 +65,9 @@ class WikipediaGetter
     end
     result
   end
+end
+
+class WikiError < StandardError
 end
 
 #WikipediaGetter.new(["Kevin_Bacon"]).get_linked_page_titles
