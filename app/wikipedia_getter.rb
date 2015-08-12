@@ -4,22 +4,26 @@ class WikipediaGetter
   include HTTParty
   base_uri 'en.wikipedia.org'
 
+  LINK_LIMIT = 10
+
   def initialize(titles)
-    @options = { :query => { :action => 'query',
-                             :format => 'json',
-                             :prop => 'links',
-                             :redirects => true,
-                             :pllimit => 'max',
-                             :plnamespace => '0',
-                             :rawcontinue => true,
-                             :titles => titles.join('|') } }
+    titles = [titles] unless titles.is_a? Array
+    @titles = titles.join('|')
+    @query_options = { :action => 'query',
+                       :format => 'json',
+                       :rawcontinue => true
+                     }
   end
 
-  def options_with_plcontinue(plcontinue)
-    return @options if plcontinue.nil?
-    result = @options.clone
-    result[:query][:plcontinue] = plcontinue
-    result
+  def forward_link_options(continue = nil)
+    forward_options = { :prop => 'links',
+                        :redirects => true,
+                        :pllimit => LINK_LIMIT,
+                        :plnamespace => 0,
+                        :titles => @titles
+                      }
+    forward_options[:plcontinue] = continue if continue
+    { :query => @query_options.merge( forward_options ) }
   end
 
   def get_linked_page_titles
@@ -27,17 +31,17 @@ class WikipediaGetter
     plcontinue_param = nil
     
     loop do
-      response = get_api_response(options_with_plcontinue(plcontinue_param))
+      response = get_api_response(forward_link_options(plcontinue_param))
 
       linked_page_titles << response["query"]["pages"].values.map do |page_data|
         page_data["links"].map { |link| link["title"] }
-      end.compact
+      end
       
       break unless response["query-continue"]
       
       plcontinue_param = response["query-continue"]["links"]["plcontinue"]
     end
-    linked_page_titles.compact
+    linked_page_titles.flatten
   end
 
   def get_api_response(url_query)
@@ -59,4 +63,4 @@ class WikipediaGetter
   end
 end
 
-WikipediaGetter.new(["Kevin_Bacon"]).get_linked_page_titles
+#WikipediaGetter.new(["Kevin_Bacon"]).get_linked_page_titles

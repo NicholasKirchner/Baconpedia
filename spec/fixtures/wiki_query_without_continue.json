@@ -1,0 +1,33 @@
+{
+    "query": {
+        "pages": {
+            "16827": {
+                "pageid": 16827,
+                "ns": 0,
+                "title": "Kevin Bacon",
+                "links": [
+                    {
+                        "ns": 0,
+                        "title": "William Snape"
+                    },
+                    {
+                        "ns": 0,
+                        "title": "Wilshire Ebell Theatre"
+                    },
+                    {
+                        "ns": 0,
+                        "title": "WorldCat"
+                    },
+                    {
+                        "ns": 0,
+                        "title": "X-Men: First Class"
+                    },
+                    {
+                        "ns": 0,
+                        "title": "YouTube"
+                    }
+                ]
+            }
+        }
+    }
+}

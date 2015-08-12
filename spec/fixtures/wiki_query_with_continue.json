@@ -1,0 +1,58 @@
+{
+    "query-continue": {
+        "links": {
+            "plcontinue": "16827|0|AllMovie"
+        }
+    },
+    "query": {
+        "pages": {
+            "16827": {
+                "pageid": 16827,
+                "ns": 0,
+                "title": "Kevin Bacon",
+                "links": [
+                    {
+                        "ns": 0,
+                        "title": "2004 in film"
+                    },
+                    {
+                        "ns": 0,
+                        "title": "8 (play)"
+                    },
+                    {
+                        "ns": 0,
+                        "title": "A Few Good Men"
+                    },
+                    {
+                        "ns": 0,
+                        "title": "A Few Good Men (film)"
+                    },
+                    {
+                        "ns": 0,
+                        "title": "Academy Award"
+                    },
+                    {
+                        "ns": 0,
+                        "title": "Access Hollywood"
+                    },
+                    {
+                        "ns": 0,
+                        "title": "Actor"
+                    },
+                    {
+                        "ns": 0,
+                        "title": "Al Pacino"
+                    },
+                    {
+                        "ns": 0,
+                        "title": "Alan Rickman"
+                    },
+                    {
+                        "ns": 0,
+                        "title": "Albert Finney"
+                    }
+                ]
+            }
+        }
+    }
+}
