@@ -6,9 +6,8 @@ class WikipediaGetter
 
   LINK_LIMIT = "max"
 
-  def initialize(titles)
-    titles = [titles] if titles.is_a? String
-    @titles = titles.join('|')
+  def initialize(title)
+    @title = title
     @query_options = { :action => 'query',
                        :format => 'json',
                        :rawcontinue => true
@@ -20,7 +19,7 @@ class WikipediaGetter
                         :redirects => true,
                         :pllimit => LINK_LIMIT,
                         :plnamespace => 0,
-                        :titles => @titles
+                        :titles => @title
                       }
     forward_options[:plcontinue] = continue if continue
     { :query => @query_options.merge( forward_options ) }
@@ -29,16 +28,19 @@ class WikipediaGetter
   def get_linked_page_titles
     linked_page_titles = []
     plcontinue_param = nil
-    
+
     loop do
       response = get_api_response(forward_link_options(plcontinue_param))
-
+      
       if response["error"]
         raise WikiError, response["error"].to_s
       end
 
       linked_page_titles << response["query"]["pages"].values.map do |page_data|
-        page_data["links"].map { |link| link["title"] }
+        #the || [] on the following line is to deal with responses which
+        #have "missing" => "" (or similar).  TODO: Isolate this case and write
+        #a spec for it.
+        (page_data["links"] || []).map { |link| link["title"] }
       end
       
       break unless response["query-continue"]
@@ -69,5 +71,3 @@ end
 
 class WikiError < StandardError
 end
-
-#WikipediaGetter.new(["Kevin_Bacon"]).get_linked_page_titles

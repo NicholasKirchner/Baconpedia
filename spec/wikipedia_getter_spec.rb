@@ -10,14 +10,9 @@ describe WikipediaGetter do
     it "should accept a string as an argument" do
       name = "Joey Jo-Jo Junior Shabadoo"
       getter = WikipediaGetter.new(name)
-      expect(getter.instance_variable_get(:@titles)).to eq(name)
+      expect(getter.instance_variable_get(:@title)).to eq(name)
     end
 
-    it "should accept an array as an argument, and concatenate the items" do
-      names = ["Joey Jo-Jo Junior Shabadoo", "Kevin Bacon"]
-      getter = WikipediaGetter.new(names)
-      expect(getter.instance_variable_get(:@titles)).to eq(names.join("|"))
-    end
   end
 
   context "#forward_link_options" do
