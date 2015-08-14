@@ -110,11 +110,20 @@ describe WikipediaGetter do
 
   context "#get_backlinked_page_titles" do
     it "should compile a list of all page titles" do
+      getter = WikipediaGetter.new("Joey Jo-Jo Junior Shabadoo")
+      allow(getter).to receive(:get_api_response) do |url_query|
+        file = url_query[:query][:blcontinue] ? "wiki_backlink_query_without_continue" : "wiki_backlink_query_with_continue"
+        JSON.parse(json_fixture(file))
+      end
 
+      expect(getter.get_backlinked_page_titles).to include("Square Kilometre Array")
+      expect(getter.get_backlinked_page_titles).to include("Alchemy")
     end
 
     it "should raise an error if wiki's response has one" do
-
+      getter = WikipediaGetter.new("Joey Jo-Jo Junior Shabadoo")
+      allow(getter).to receive(:get_api_response) { JSON.parse(json_fixture("wiki_error")) }
+      expect { getter.get_backlinked_page_titles }.to raise_error(WikiError)
     end
   end
 end

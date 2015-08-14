@@ -36,10 +36,10 @@ class WikipediaGetter
 
   def get_linked_page_titles
     linked_page_titles = []
-    plcontinue_param = nil
+    continue_param = nil
 
     loop do
-      response = get_api_response(forward_link_options(plcontinue_param))
+      response = get_api_response(forward_link_options(continue_param))
       
       if response["error"]
         raise WikiError, response["error"].to_s
@@ -54,9 +54,29 @@ class WikipediaGetter
       
       break unless response["query-continue"]
       
-      plcontinue_param = response["query-continue"]["links"]["plcontinue"]
+      continue_param = response["query-continue"]["links"]["plcontinue"]
     end
     linked_page_titles.flatten
+  end
+
+  def get_backlinked_page_titles
+    backlinked_page_titles = []
+    continue_param = nil
+
+    loop do
+      response = get_api_response(backward_link_options(continue_param))
+
+      if response["error"]
+        raise WikiError, response["error"].to_s
+      end
+
+      backlinked_page_titles << response["query"]["backlinks"].map { |blink| blink["title"] }
+
+      break unless response["query-continue"]
+
+      continue_param = response["query-continue"]["backlinks"]["blcontinue"]
+    end
+    backlinked_page_titles.flatten
   end
 
   def get_api_response(url_query)

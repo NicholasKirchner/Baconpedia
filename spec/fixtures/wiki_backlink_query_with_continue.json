@@ -1,0 +1,61 @@
+{
+    "query-continue": {
+        "backlinks": {
+            "blcontinue": "0|1164"
+        }
+    },
+    "query": {
+        "backlinks": [
+            {
+                "pageid": 308,
+                "ns": 0,
+                "title": "Aristotle"
+            },
+            {
+                "pageid": 573,
+                "ns": 0,
+                "title": "Alchemy"
+            },
+            {
+                "pageid": 700,
+                "ns": 0,
+                "title": "Arthur Schopenhauer"
+            },
+            {
+                "pageid": 713,
+                "ns": 0,
+                "title": "Android (robot)"
+            },
+            {
+                "pageid": 736,
+                "ns": 0,
+                "title": "Albert Einstein"
+            },
+            {
+                "pageid": 902,
+                "ns": 0,
+                "title": "Atom"
+            },
+            {
+                "pageid": 928,
+                "ns": 0,
+                "title": "Axiom"
+            },
+            {
+                "pageid": 1029,
+                "ns": 0,
+                "title": "Albert Schweitzer"
+            },
+            {
+                "pageid": 1130,
+                "ns": 0,
+                "title": "Avicenna"
+            },
+            {
+                "pageid": 1154,
+                "ns": 0,
+                "title": "August 2"
+            }
+        ]
+    }
+}
