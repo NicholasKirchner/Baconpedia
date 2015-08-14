@@ -16,13 +16,22 @@ class WikipediaGetter
 
   def forward_link_options(continue = nil)
     forward_options = { :prop => 'links',
-                        :redirects => true,
                         :pllimit => LINK_LIMIT,
                         :plnamespace => 0,
                         :titles => @title
                       }
     forward_options[:plcontinue] = continue if continue
     { :query => @query_options.merge( forward_options ) }
+  end
+
+  def backward_link_options(continue = nil)
+    backward_options = { :list => 'backlinks',
+                         :bllimit => LINK_LIMIT,
+                         :blnamespace => 0,
+                         :bltitle => @title
+                       }
+    backward_options[:blcontinue] = continue if continue
+    { :query => @query_options.merge( backward_options ) }
   end
 
   def get_linked_page_titles

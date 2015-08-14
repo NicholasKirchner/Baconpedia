@@ -26,7 +26,6 @@ describe WikipediaGetter do
           :format => 'json',
           :rawcontinue => true,
           :prop => 'links',
-          :redirects => true,
           :pllimit => WikipediaGetter::LINK_LIMIT,
           :plnamespace => 0,
           :titles => @name
@@ -43,6 +42,36 @@ describe WikipediaGetter do
       @expected_query_params[:query][:plcontinue] = argument
       expect(@getter.forward_link_options(argument)).to eq(@expected_query_params)
     end
+  end
+
+  context "#backward_link_options" do
+
+    before :each do
+      @name = "Joey Jo-Jo Junior Shabadoo"
+      @getter = WikipediaGetter.new(@name)
+      @expected_query_params = {
+        :query => {
+          :action => 'query',
+          :format => 'json',
+          :rawcontinue => true,
+          :list => 'backlinks',
+          :blnamespace => 0,
+          :bltitle => @name,
+          :bllimit => WikipediaGetter::LINK_LIMIT
+        }
+      }
+    end
+
+    it "should return the correct query params given no argument" do
+      expect(@getter.backward_link_options).to eq(@expected_query_params)
+    end
+
+    it "should return the correct query params if given an argument" do
+      argument = "testing"
+      @expected_query_params[:query][:blcontinue] = argument
+      expect(@getter.backward_link_options(argument)).to eq(@expected_query_params)
+    end
+
   end
 
   context "#get_api_response" do
@@ -77,6 +106,15 @@ describe WikipediaGetter do
       allow(getter).to receive(:get_api_response) { JSON.parse(json_fixture("wiki_error")) }
       expect { getter.get_linked_page_titles }.to raise_error(WikiError)
     end
+  end
 
+  context "#get_backlinked_page_titles" do
+    it "should compile a list of all page titles" do
+
+    end
+
+    it "should raise an error if wiki's response has one" do
+
+    end
   end
 end
