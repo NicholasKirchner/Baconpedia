@@ -1,4 +1,8 @@
+require 'thread_safe'
+
 class WikipediaDistanceSolver
+
+  CONCURRENT_REQUESTS = 10
 
   def initialize(start_point, end_point)
     @all_nodes_seen = Set.new([start_point])
@@ -31,9 +35,15 @@ class WikipediaDistanceSolver
 
   def get_next_tier!
     next_tier = Set.new
-    @new_nodes_by_tier.last.each do |new_node|
-      getter = WikipediaGetter.new(new_node)
-      new_items = Set.new(getter.get_linked_page_titles)
+    @new_nodes_by_tier.last.each_slice(CONCURRENT_REQUESTS) do |slice|
+      new_items_from_slice = ThreadSafe::Array.new
+      threads = slice.map do |title|
+        Thread.new do
+          new_items_from_slice << WikipediaGetter.new(title).get_linked_page_titles
+        end
+      end
+      threads.map(&:join)
+      new_items = Set.new(new_items_from_slice)
       next_tier.merge(new_items)
       break if found_a_link?(new_items)
     end

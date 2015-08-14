@@ -4,3 +4,4 @@ source "https://rubygems.org"
 gem 'httparty'
 gem 'rspec'
 gem 'require_all'
+gem 'thread_safe'
